@@ -16,6 +16,7 @@ import nltk
 
 import pickle
 
+import utils
 
 ##################################################################################################################################
 class MeanEmbeddingVectorizer(object):
