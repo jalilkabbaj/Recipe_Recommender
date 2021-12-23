@@ -78,18 +78,14 @@ df.drop(columns = ['level_0'],inplace = True)
 
 
 ##################################################################################################################################
-model1 = pickle.load(open('Pickle Models/Trained_Word2Vec_Model.pkl', 'rb'))
-recipes = pickle.load(open('Pickle Models/Trained_Recipes.pkl','rb'))
+
 
 model2 = pickle.load(open('Pickle Models/Trained_Word2Vec_Model2.pkl', 'rb'))
 recipes2 = pickle.load(open('Pickle Models/Trained_Recipes2.pkl','rb'))
 
-model3 = pickle.load(open('Pickle Models/Trained_Word2Vec_Model3.pkl', 'rb'))
-recipes3 = pickle.load(open('Pickle Models/Trained_Recipes3.pkl','rb'))
 
 
 ##################################################################################################################################
-data_set = st.selectbox(" Select the number of recipes the model will train on: ",("100,000 Recipes","500,000 Recipes","Over 1 Million Recipes"))
 
 recs = st.slider("How many recommendations would you like ?", 1,100)
 
@@ -102,38 +98,18 @@ clean_input = [lemmatizer.lemmatize(w) for w in nltk.word_tokenize(message)]
 
 
 
-if data_set == "100,000 Recipes":
-
-    model_data = MeanEmbeddingVectorizer(model2)
-    recipe_data = recipes2 
-    data_frame = df[:100000]
-        
-
-    
-if data_set == "500,000 Recipes":
-    model_data = MeanEmbeddingVectorizer(model3)
-    recipe_data = recipes3
-    data_frame = df[:500000]
-
-    
-
-if data_set == "Over 1 Million Recipes":
-    model_data = MeanEmbeddingVectorizer(model1)
-    recipe_data = recipes
-    data_frame = df
-
-
-ingredients_vec = model_data.doc_average(clean_input)
-ingredients_vec = ingredients_vec.reshape(1,-1)
-
-
-
 
 if st.button('Recommend !'):
 
+
+    model_data = MeanEmbeddingVectorizer(model2)
+    ingredients_vec = model_data.doc_average(clean_input)
+    ingredients_vec = ingredients_vec.reshape(1,-1)
+    data_frame = df[:100000]
+
     df = data_frame
 
-    df['cosine similarity'] =list(map(lambda x: cosine_similarity(ingredients_vec, x)[0][0],recipe_data))
+    df['cosine similarity'] =list(map(lambda x: cosine_similarity(ingredients_vec, x)[0][0],recipes2))
 
     st.success(st.dataframe(df.sort_values(by = 'cosine similarity', ascending = False)[:recs]))
 
