@@ -15,6 +15,7 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 
 nltk.download('punkt')
+nltk.download('wordnet')
 
 import pickle
 
