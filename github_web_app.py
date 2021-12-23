@@ -70,11 +70,10 @@ st.write("""
 
 ##################################################################################################################################
 
-df = pd.read_csv('recipe_cleaned_spacy2.csv',index_col=0)
+df = pd.read_csv('recipe_cleaned_spacy3.csv',index_col=0)
 df.dropna(inplace = True)
 df.reset_index(inplace = True)
 df.drop(columns = ['index'], inplace = True)
-df.drop(columns = ['level_0'],inplace = True)
 
 
 ##################################################################################################################################
